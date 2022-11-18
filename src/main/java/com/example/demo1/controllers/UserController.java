@@ -38,7 +38,7 @@ public class UserController {
 
     //POST Request
     @PostMapping("/create")
-    public User createUser(@RequestParam("user") String userJSON) {
+    public void createUser(@RequestParam("user") String userJSON) {
 
         System.out.println("POST(/create) performed");
 
@@ -46,12 +46,20 @@ public class UserController {
         try {
             if(userJSON != null){
                 user = new ObjectMapper().readValue(userJSON, User.class);
+                System.out.println("Request Body: "+ userJSON);
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return user;
     }
+
+    //DELETE Request
+    @DeleteMapping("/delete")
+    public User deleteUser(@PathVariable String id){
+        System.out.println("User with ID: "+ id);
+        return null;
+    }
+
 
 
 }

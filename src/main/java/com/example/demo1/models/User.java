@@ -4,10 +4,19 @@ package com.example.demo1.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-public class User {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "users")
+public class User {
+@Id
+@Column(name = "id")
     private int id;
+    @Column(name = "firstname")
     private String firstname;
+    @Column(name = "lastname")
     private String lastname;
 
     public User() {

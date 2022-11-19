@@ -1,65 +1,82 @@
 package com.example.demo1.controllers;
 
+import com.example.demo1.database.UsersDataAccess;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.demo1.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
 public class UserController {
 
+    @Autowired
+    UsersDataAccess usersDataAccess;
+
 
     //GET user
-    @GetMapping("/getuser/{id}")
-    public String getUser(@PathVariable String id) {
-
-        System.out.println("GET performed");
-        User user1 = new User(1, "oth");
-        User user2 = new User(2, "moh");
-        User user3 = new User(3, "kader");
-        User user4 = new User(4, "amine");
-        ArrayList<User> users = new ArrayList<User>();
-
-        users.add(user1);users.add(user2);users.add(user3);users.add(user4);
-
-        // Database Query example: find a user by the id provided in request's parameter
-        User userX = users.stream().filter(element -> element.getId() == Integer.parseInt(id)).findAny().orElse(null);
-        try {
-            return new ObjectMapper().writeValueAsString(userX);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    @GetMapping("/id={id}")
+    public Optional<User> getUserById(@PathVariable String id) {
+        return usersDataAccess.findById(Integer.parseInt(id));
     }
 
+    @GetMapping("/all")
+    public List<User> getUsers() {
+        return usersDataAccess.findAll();
+    }
 
+    @GetMapping("/name={name}")
+    public List<User> getUserByName(@PathVariable String name) {
+        return usersDataAccess.getByFirstName(name);
+    }
 
-    //POST Request
     @PostMapping("/create")
     public void createUser(@RequestParam("user") String userJSON) {
 
         System.out.println("POST(/create) performed");
-
-        User user = null;
+        User user ;
         try {
-            if(userJSON != null){
-                user = new ObjectMapper().readValue(userJSON, User.class);
-                System.out.println("Request Body: "+ userJSON);
+            if (userJSON != null) {
+                user = new User(new ObjectMapper().readValue(userJSON, User.class).getFirstname(),
+                        new ObjectMapper().readValue(userJSON, User.class).getLastname()
+                );
+                System.out.println("Request Body: " + userJSON);
+                usersDataAccess.save(user);
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    //DELETE Request
-    @DeleteMapping("/delete")
-    public User deleteUser(@PathVariable String id){
-        System.out.println("User with ID: "+ id);
-        return null;
+    //PUT Request to update user
+    @PutMapping("/update/id={id}")
+    public void putUser(@RequestParam("user") String userJSON, @PathVariable String id) {
+        User user ;
+        if (userJSON != null) {
+            try {
+                user = new User(Integer.parseInt(id),
+                        new ObjectMapper().readValue(userJSON, User.class).getFirstname(),
+                        new ObjectMapper().readValue(userJSON, User.class).getLastname()
+                );
+                System.out.println("UPDATED user with ID: " + user.getId());
+                usersDataAccess.save(user);
+
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
+    //DELETE Request
+    @DeleteMapping("/delete/id={id}")
+    public void deleteUser(@PathVariable String id) {
+        System.out.println("DELETED user with ID: " + id);
+        usersDataAccess.deleteById(Integer.parseInt(id));
+    }
 
 
 }

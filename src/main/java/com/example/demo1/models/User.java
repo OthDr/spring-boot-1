@@ -1,18 +1,18 @@
 package com.example.demo1.models;
 
 
-import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User {
-@Id
-@Column(name = "id")
+    @Id
+    @Column(name = "id", nullable = false, unique = true)
     private int id;
     @Column(name = "firstname")
     private String firstname;
@@ -21,8 +21,6 @@ public class User {
 
     public User() {
     }
-
-
 
     public String getFirstname() {
         return firstname;

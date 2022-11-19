@@ -1,8 +1,6 @@
 package com.example.demo1.models;
 
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

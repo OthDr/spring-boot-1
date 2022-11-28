@@ -1,10 +1,7 @@
 package com.example.demo1.controllers;
 
-import com.example.demo1.database.UsersDataAccess;
-import com.example.demo1.services.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.demo1.models.User;
+import com.example.demo1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +12,13 @@ import java.util.Optional;
 @RequestMapping("api/user")
 public class UserController {
 
-    @Autowired
+
     UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     //GET user
     @GetMapping("/id={id}")

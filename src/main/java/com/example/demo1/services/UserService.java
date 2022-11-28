@@ -5,19 +5,21 @@ import com.example.demo1.models.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class UserService {
 
-    @Autowired
+
     UsersDataAccess usersDataAccess;
 
+    @Autowired
+    public UserService(UsersDataAccess usersDataAccess) {
+        this.usersDataAccess = usersDataAccess;
+    }
 
     public Optional<User> getUserById(String id) {
         return usersDataAccess.findById(Integer.parseInt(id));

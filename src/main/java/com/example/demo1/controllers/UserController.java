@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 public class UserController {
 
 

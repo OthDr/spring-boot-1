@@ -40,9 +40,16 @@ public class UserService {
         User user;
         try {
             if (userJSON != null) {
-                user = new User(new ObjectMapper().readValue(userJSON, User.class).getFirstname(),
-                        new ObjectMapper().readValue(userJSON, User.class).getLastname()
-                );
+//                user = new User(new ObjectMapper().readValue(userJSON, User.class).getFirstname(),
+//                        new ObjectMapper().readValue(userJSON, User.class).getLastname()
+//                );
+
+                // using Lombok
+                user = User.builder()
+                        .firstname(new ObjectMapper().readValue(userJSON, User.class).getFirstname())
+                        .lastname(new ObjectMapper().readValue(userJSON, User.class).getLastname())
+                        .build();
+
                 System.out.println("Request Body: " + userJSON);
                 usersDataAccess.save(user);
             }
@@ -55,10 +62,11 @@ public class UserService {
         User user;
         if (userJSON != null) {
             try {
-                user = new User(Integer.parseInt(id),
-                        new ObjectMapper().readValue(userJSON, User.class).getFirstname(),
-                        new ObjectMapper().readValue(userJSON, User.class).getLastname()
-                );
+                user = User.builder()
+                        .id(Integer.parseInt(id))
+                        .firstname(new ObjectMapper().readValue(userJSON, User.class).getFirstname())
+                        .lastname(new ObjectMapper().readValue(userJSON, User.class).getLastname())
+                        .build();
                 System.out.println("UPDATED user with ID: " + user.getId());
                 usersDataAccess.save(user);
 

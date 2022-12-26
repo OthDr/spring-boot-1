@@ -38,13 +38,13 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public void createUser(@RequestParam("user") String userJSON) {
-        userService.createUser(userJSON);
+    public void createUser(@RequestBody String user) {
+        userService.createUser(user);
     }
 
     //PUT Request to update user
     @PutMapping("/update/id={id}")
-    public void putUser(@RequestParam("user") String userJSON, @PathVariable String id) {
+    public void putUser(@RequestBody String userJSON, @PathVariable String id) {
         userService.updateUser(userJSON, id);
     }
 

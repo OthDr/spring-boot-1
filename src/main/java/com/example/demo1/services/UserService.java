@@ -1,7 +1,7 @@
 package com.example.demo1.services;
 
 import com.example.demo1.repository.UsersDataAccess;
-import com.example.demo1.models.User;
+import com.example.demo1.entity.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

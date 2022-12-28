@@ -1,4 +1,4 @@
-package com.example.demo1.models;
+package com.example.demo1.entity;
 import lombok.*;
 
 import javax.persistence.*;

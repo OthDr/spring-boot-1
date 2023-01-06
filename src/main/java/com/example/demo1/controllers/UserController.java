@@ -3,6 +3,8 @@ package com.example.demo1.controllers;
 import com.example.demo1.entity.User;
 import com.example.demo1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +35,13 @@ public class UserController {
     }
 
     @GetMapping("/name={name}")
-    public List<User> getUserByName(@PathVariable String name) {
-        return userService.getUserByName(name);
+    public ResponseEntity<?> getUserByName(@PathVariable String name) {
+        List<User> users = userService.getUserByName(name);
+        if (!users.isEmpty()){
+            return ResponseEntity.ok().body(users);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/create")
